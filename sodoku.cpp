@@ -50,11 +50,12 @@ int Sodoku::generate() {
     }
     cout << "display matrice" << endl;
     for (int i=0; i < 9; i++) {
-        for (int j = 0; j < 9 ; ++j) {
+        for (int j = 0; j < 9 ; j++) {
             bool cr = this ->check_row(i, j, this -> game_board[i][j]);
             bool cl = this ->check_col(i, j, this -> game_board[i][j]);
-            if(!cr or !cl){
-                cout << "NOON";
+            bool cg = this ->check_grid(i, j, this -> game_board[i][j]);
+            if(!cr or !cl or !cg){
+                cout << "NOON" <<i << " "<< " "<< j <<  this -> game_board[i][j]<<" ok ";
             }
             cout <<this -> game_board[i][j] << " " ;
             if (j == 8){
@@ -99,7 +100,7 @@ vector<int> Sodoku::rank(const std::vector<int>& tab, int row_index, int col_ind
     for (int i: tab) {
         int counter = 0;
         for (int j = col_index+1; j < 9; ++j) {
-            if (this->check_col(row_index, j, i)){
+            if (this->check_col(row_index, j, i) and this->check_grid(row_index, j, i)){
                 counter++;
             }
         }
@@ -154,7 +155,9 @@ std::vector<int> Sodoku::col_select(vector<int> &tab, int row_index, int col_ind
             for (int j: tab) {
                 bool check = this->check_col(row_index, i, j);
                 if (check){
-                    select.push_back(j);
+                    if (this ->check_grid(row_index, i, j)){
+                        select.push_back(j);
+                    }
                 }
             }
         }
@@ -168,4 +171,108 @@ std::vector<int> Sodoku::col_select(vector<int> &tab, int row_index, int col_ind
         }
     }
     return tab;
+}
+
+bool Sodoku::check_grid(int row, int col, int number) {
+    bool absent = true;
+    if(row >= 0 and row <=2 and col >= 0 and col <= 2){
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                if( i != row and j!=col){
+                    if (this -> game_board[i][j] == number){
+                        absent = false;
+                    }
+                }
+            }
+        }
+    }
+    else if(row >= 0 and row <=2 and col >= 3 and col <= 5){
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 3; j < 6; ++j) {
+                if( i != row and j!=col){
+                    if (this -> game_board[i][j] == number){
+                        absent = false;
+                    }
+                }
+            }
+        }
+    }
+    else if(row >= 0 and row <=2 and col >= 6 and col <= 8){
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 6; j < 9; ++j) {
+                if( i != row and j!=col){
+                    if (this -> game_board[i][j] == number){
+                        absent = false;
+                    }
+                }
+            }
+        }
+    }
+    else if(row >= 3 and row <=5 and col >= 0 and col <= 2){
+        for (int i = 3; i < 6; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                if( i != row and j!=col){
+                    if (this -> game_board[i][j] == number){
+                        absent = false;
+                    }
+                }
+            }
+        }
+    }
+    else if(row >= 3 and row <=5 and col >= 3 and col <= 5){
+        for (int i = 3; i < 6; ++i) {
+            for (int j = 3; j < 6; ++j) {
+                if( i != row and j!=col){
+                    if (this -> game_board[i][j] == number){
+                        absent = false;
+                    }
+                }
+            }
+        }
+    }
+    else if(row >= 3 and row <=5 and col >= 6 and col <= 8){
+        for (int i = 3; i < 6; ++i) {
+            for (int j = 6; j < 9; ++j) {
+                if( i != row and j!=col){
+                    if (this -> game_board[i][j] == number){
+                        absent = false;
+                    }
+                }
+            }
+        }
+    }
+    else if(row >= 6 and row <=8 and col >= 0 and col <= 2){
+        for (int i = 6; i < 9; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                if( i != row and j!=col){
+                    if (this -> game_board[i][j] == number){
+                        absent = false;
+                    }
+                }
+            }
+        }
+    }
+    else if(row >= 6 and row <=8 and col >= 3 and col <= 5){
+        for (int i = 6; i < 9; ++i) {
+            for (int j = 3; j < 6; ++j) {
+                if( i != row and j!=col){
+                    if (this -> game_board[i][j] == number){
+                        absent = false;
+                    }
+                }
+            }
+        }
+    }
+    else if(row >= 6 and row <=8 and col >= 6 and col <= 8){
+        for (int i = 6; i < 9; ++i) {
+            for (int j = 6; j < 9; ++j) {
+                if( i != row and j!=col){
+                    if (this -> game_board[i][j] == number){
+                        absent = false;
+                    }
+                }
+            }
+        }
+    }
+    return absent;
 }
